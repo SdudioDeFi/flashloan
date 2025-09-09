@@ -1,0 +1,32 @@
+name: Full Stack CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-deploy:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+      - name: Build front/backend
+        run: npm run build
+      - name: Compile contracts
+        run: npx hardhat compile
+      - name: Automated contract verification
+        run: |
+          if [ -f "scripts/scripts_deploy_contracts_Version3.ts" ]; then
+            npx hardhat run scripts/scripts_deploy_contracts_Version3.ts
+          fi
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
