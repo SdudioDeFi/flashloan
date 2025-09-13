@@ -1,4 +1,16 @@
 import { useState } from 'react';
+import CoreDashboardLayout from '../../src/dashboard/CoreDashboardLayout';
+
+const widgets = [
+  <div>Pool LP Monitor Widget</div>,
+  <div>Bot Status Widget</div>,
+  <div>Wallet Scanner Widget</div>,
+  <div>Scoring Widget</div>,
+  <div>Quest Poster Widget</div>,
+  <div>Ranking Widget</div>,
+  <div>Donation Widget</div>,
+  <div>Flash Loan Opportunity Widget</div>
+];
 
 export default function Dashboard() {
   const [result, setResult] = useState(null);
@@ -19,8 +31,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: 'auto', padding: 16 }}>
-      <h2>Execution Bot Dashboard</h2>
+    <CoreDashboardLayout title="Execution Bot Dashboard" widgets={widgets} chat={<span>AI Chat Placeholder</span>}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <select value={strategy} onChange={e => setStrategy(e.target.value)}>
           <option value="turbo">Turbo</option>
@@ -38,13 +49,8 @@ export default function Dashboard() {
           <h3>Status: {result.status}</h3>
           <div>Strategy: {result.strategy}</div>
           <div>Wallet: {result.wallet}</div>
-          <div>Pool: {result.pool}</div>
-          <div>Token: {result.token}</div>
-          <div>Amount: {result.amount}</div>
-          <div>Score: {result.score}</div>
-          <div>Profit: {result.profit}</div>
         </div>
       )}
-    </div>
+    </CoreDashboardLayout>
   );
 }
